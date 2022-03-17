@@ -1,0 +1,21 @@
+{
+    "name": "kickstart",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha",
+        "contract:compile": "node ./ethereum/compile.js",
+        "contract:deploy": "node ./ethereum/deploy.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@truffle/hdwallet-provider": "^1.7.0",
+        "fs-extra": "^10.0.0",
+        "ganache-cli": "^6.12.2",
+        "mocha": "^9.1.2",
+        "solc": "^0.4.17",
+        "web3": "^1.6.0"
+    }
+}
