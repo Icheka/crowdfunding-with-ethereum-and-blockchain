@@ -53,8 +53,12 @@ contract Campaign {
     // become a backer of this Campaign
     function contribute() public payable {
         require(msg.value >= minimumContribution);
-        contributors[msg.sender] = true;
-        contributorsCount++;
+
+        // allow backers to contribute again without updating the contributorsCount
+        if (contributors[msg.sender] == false) {
+            contributors[msg.sender] = true;
+            contributorsCount++;
+        }
     }
 
     // manager-only: publish a new disbursement request 
@@ -87,6 +91,30 @@ contract Campaign {
         require(!request.complete);
         requireIsApprovable(requestIndex);
 
+        request.recipient.transfer(request.value);
         request.complete = true;
+    }
+
+    // retrieve summary
+    function summary() 
+        public view returns(
+            uint,
+            uint,
+            uint,
+            uint,
+            address
+        ) {
+        return (
+            minimumContribution,
+            this.balance,
+            requests.length,
+            contributorsCount,
+            manager
+        );
+    }
+
+    // retrive number of requests
+    function getRequestsCount() public view returns (uint) {
+        return requests.length;
     }
 }
